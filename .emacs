@@ -128,6 +128,7 @@
  '(TeX-output-view-style (quote (("^dvi$" ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$") "%(o?)dvips -t landscape %d -o && gv %f") ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f") ("^dvi$" ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$") "%(o?)xdvi %dS -paper a4r -s 0 %d") ("^dvi$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)xdvi %dS -paper a4 %d") ("^dvi$" ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$") "%(o?)xdvi %dS -paper a5r -s 0 %d") ("^dvi$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)xdvi %dS -paper a5 %d") ("^dvi$" "^b5paper$" "%(o?)xdvi %dS -paper b5 %d") ("^dvi$" "^letterpaper$" "%(o?)xdvi %dS -paper us %d") ("^dvi$" "^legalpaper$" "%(o?)xdvi %dS -paper legal %d") ("^dvi$" "^executivepaper$" "%(o?)xdvi %dS -paper 7.25x10.5in %d") ("^dvi$" "." "%(o?)xdvi %dS %d") ("^pdf$" "." "evince %o") ("^html?$" "." "firefox %o"))))
  '(c-basic-offset 2)
  '(ediff-split-window-function (quote split-window-horizontally))
+ '(fci-handle-truncate-lines t)
  '(fill-column 90)
  '(goal-column nil)
  '(graphviz-dot-auto-indent-on-semi nil)
@@ -136,6 +137,7 @@
  '(require-final-newline t)
  '(show-trailing-whitespace t)
  '(split-height-threshold nil)
+ '(truncate-partial-width-windows nil)
  '(user-mail-address "skyewm@gmail.com"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -304,14 +306,25 @@
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
+
+;; (defconst my-cc-style
+;; '("gnu" (c-offsets-alist .
+;;                          ((innamespace . [0])
+;;                           (arglist-cont-nonempty . 4)
+;;                           (arglist-intro . 4)
+;;                           (access-label . -1)
+;;                           (member-init-intro . 4))
+;;                          )))
+;; (c-add-style "my-cc-style" my-cc-style)
+
 (defconst my-cc-style
-'("gnu" (c-offsets-alist .
-                         ((innamespace . [0])
-                          (arglist-cont-nonempty . 4)
-                          (arglist-intro . 4)
-                          (access-label . -1)
-                          (member-init-intro . 4))
-                         )))
+  '("Google" (c-offsets-alist .
+                              ((innamespace . [0])
+                               (arglist-cont-nonempty . 4)
+                               (arglist-intro . 4)
+                               (access-label . -1)
+                               (member-init-intro . 4))
+                              )))
 (c-add-style "my-cc-style" my-cc-style)
 
 (defun scroll-up-one ()
@@ -328,33 +341,16 @@
 (defun ack-be (query)
   (interactive "Mack-grep ")
   (ack (concat "ack-grep " query)
-       "/home/skye/desktop/code/impala/be/src"))
+       "/home/skye/code/impala/be/src"))
+
+(defun ggrep (query)
+  (interactive "Mgit grep ")
+  (vc-git-grep query "*" "/home/skye/code/impala/"))
 
 (require 'workgroups)
 (setq wg-prefix-key (kbd "C-c C-w"))
 
 (set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
-
-
-;; (fset 'partition
-;;    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([15 45 45 45 45 32 80 65 82 84 73 84 73 79 78 95 67 79 76 85 77 78 83 19 112 97 114 116 105 116 105 111 110 101 100 32 98 121 32 40 13 67108896 19 41 2 134217847 21 67108896 21 67108896 return 25 return 45 45 45 45 32 67 79 76 85 77 78 83 19 67 82 69 65 84 69 33554464 69 88 13 14 1 67108896 19 41 2 134217847 21 67108896 21 67108896 return 25 return 45 45 45 45 32 82 79 87 95 70 79 82 77 65 84 19 114 111 119 32 102 111 114 109 97 116 32 13 67108896 5 134217847 21 67108896 21 67108896 return 25 14 1 67108896 19 45 45 45 45 19 1 23] 0 "%d")) arg)))
-
-;; (fset 'select
-;;    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([67108896 19 59 13 23 24 111 24 104 23 25 134217849 134217788] 0 "%d")) arg)))
-;; (global-set-key (kbd "C-x 1") 'select)
-
-;; (fset 'columns
-;;    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([19 99 114 101 97 116 101 32 101 120 116 101 114 110 97 108 13 19 40 13 1 14 67108896 19 41 2 134217847 24 111 45 45 45 45 32 67 79 76 85 77 78 83 return 25] 0 "%d")) arg)))
-;; (global-set-key (kbd "C-x 3") 'columns)
-
-;; (global-set-key (kbd "C-x 2") 'partition)
-
-;; (fset 'rowformat
-;;    (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([19 114 111 119 32 102 111 114 109 97 116 32 13 67108896 5 134217847 24 111 45 45 45 45 32 82 79 87 95 70 79 82 77 65 84 return 25] 0 "%d")) arg)))
-
-;; (global-set-key (kbd "C-x 4") 'rowformat)
-
-;; (global-set-key (kbd "C-x 5") 'fixcolumns)
 
 (global-set-key (kbd "C-S-s") 'isearch-forward-regexp)
 
@@ -401,4 +397,114 @@
         (open-or-switch-to other-file)))
 (global-set-key (kbd "C-M-;") 'switch-to-header-or-impl)
 
-(require 'nhexl-mode)
+;; (require 'nhexl-mode)
+
+;; from henry
+(defun find-in-impala (regex)
+   (interactive "sFilename pattern: ")
+   (let ((find-name-arg "-iname"))
+     (find-name-dired (getenv "IMPALA_HOME") (format "*%s*" regex))))
+(global-set-key (kbd "C-c C-f") 'find-in-impala)
+
+(defun make-lzo ()
+  (interactive)
+  (compile "cd ~/Impala-lzo && make"))
+(global-set-key (kbd "C-x C-z") 'make-lzo)
+
+(defun revert-all-buffers ()
+    "Refreshes all open buffers from their respective files."
+    (interactive)
+    (dolist (buf (buffer-list))
+      (with-current-buffer buf
+        (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
+          (revert-buffer t t t) )))
+    (message "Refreshed open files.") )
+
+(require 'fill-column-indicator)
+(add-hook 'after-change-major-mode-hook 'fci-mode)
+(setq fci-rule-color "#222244")
+
+(require 'multiple-cursors)
+(global-set-key (kbd "C-\"") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-:") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c '") 'mc/mark-all-like-this)
+
+(set-default 'truncate-lines nil)
+
+(fset 'testpph-down
+   "\C-sdefine i64 @_Z4testPPh\C-s\C-m\C-a\C-p\C-p\C-p\C-l\C-l")
+(global-set-key (kbd "<f8>") 'testpph-down)
+(fset 'testpph-up
+   "\C-rdefine i64 @_Z4testPPh\C-m\C-p\C-p\C-p\C-l\C-l")
+(global-set-key (kbd "<f7>") 'testpph-up)
+
+(fset 'addintint-down
+   "\C-sdefine i64 @_ZN6impala16ComputeFunctions11Add_int_intEPN10impala_udf15FunctionContextERKNS1_6IntValES6_Wrapper17(\C-s\C-m\C-a\C-p\C-p\C-p\C-l\C-l")
+(global-set-key (kbd "<f10>") 'addintint-down)
+(fset 'addintint-up
+   "\C-rdefine i64 @_ZN6impala16ComputeFunctions11Add_int_intEPN10impala_udf15FunctionContextERKNS1_6IntValES6_Wrapper17(\C-m\C-p\C-p\C-p\C-l\C-l")
+(global-set-key (kbd "<f9>") 'addintint-up)
+
+(fset 'addbigintbigint-down
+   "\C-sdefine { i8, i64 } @_ZN6impala16ComputeFunctions17Add_bigint_bigintEPN10impala_udf15FunctionContextERKNS1_9BigIntValES6_Wrapper43(\C-s\C-m\C-a\C-p\C-p\C-p\C-l\C-l")
+(global-set-key (kbd "<f10>") 'addbigintbigint-down)
+(fset 'addbigintbigint-up
+   "\C-rdefine { i8, i64 } @_ZN6impala16ComputeFunctions17Add_bigint_bigintEPN10impala_udf15FunctionContextERKNS1_9BigIntValES6_Wrapper43(\C-m\C-p\C-p\C-p\C-l\C-l")
+(global-set-key (kbd "<f9>") 'addbigintbigint-up)
+
+(global-set-key (kbd "<f12>") 'toggle-truncate-lines)
+
+(defun find-duplicate-lines (&optional insertp interp)
+    (interactive "i\np")
+    (let ((max-pon (line-number-at-pos (point-max)))
+	  (gather-dups))
+      (while (< (line-number-at-pos) max-pon) (= (forward-line) 0)
+	     (let ((this-line (buffer-substring-no-properties (line-beginning-position 1) (line-end-position 1)))
+		   (next-line (buffer-substring-no-properties (line-beginning-position 2) (line-end-position 2))))
+	       (when  (equal this-line next-line)  (setq gather-dups (cons this-line gather-dups)))))
+      (if (or insertp interp)
+	  (save-excursion (new-line) (princ gather-dups (current-buffer)))
+	gather-dups)))
+
+(defun randomize-region (beg end)
+  (interactive "r")
+  (if (> beg end)
+      (let (mid) (setq mid end end beg beg mid)))
+  (save-excursion
+    ;; put beg at the start of a line and end and the end of one --
+    ;; the largest possible region which fits this criteria
+    (goto-char beg)
+    (or (bolp) (forward-line 1))
+    (setq beg (point))
+    (goto-char end)
+    ;; the test for bolp is for those times when end is on an empty
+    ;; line; it is probably not the case that the line should be
+    ;; included in the reversal; it isn't difficult to add it
+    ;; afterward.
+    (or (and (eolp) (not (bolp)))
+        (progn (forward-line -1) (end-of-line)))
+    (setq end (point-marker))
+    (let ((strs (shuffle-list 
+                 (split-string (buffer-substring-no-properties beg end)
+                               "\n"))))
+      (delete-region beg end)
+      (dolist (str strs)
+        (insert (concat str "\n"))))))
+
+(defun shuffle-list (list)
+  "Randomly permute the elements of LIST.
+All permutations equally likely."
+  (let ((i 0)
+        j
+        temp
+        (len (length list)))
+    (while (< i len)
+      (setq j (+ i (random (- len i))))
+      (setq temp (nth i list))
+      (setcar (nthcdr i list) (nth j list))
+      (setcar (nthcdr j list) temp)
+      (setq i (1+ i))))
+  list)
+
+(semantic-mode 1)
+(global-ede-mode 1)
