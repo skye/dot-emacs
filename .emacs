@@ -14,6 +14,7 @@
 
 ;(set-default-font "-Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO8859-1")
 ;(set-default-font "Droid Sans Mono-9")
+(set-face-attribute 'default nil :height 110)
 
 ;(add-to-list 'default-frame-alist '(font . "Droid Sans Mono-9"))
 (add-to-list 'default-frame-alist '(geometry . "-1-1"))
@@ -120,13 +121,37 @@
 
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(TeX-PDF-mode t)
- '(TeX-output-view-style (quote (("^dvi$" ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$") "%(o?)dvips -t landscape %d -o && gv %f") ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f") ("^dvi$" ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$") "%(o?)xdvi %dS -paper a4r -s 0 %d") ("^dvi$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)xdvi %dS -paper a4 %d") ("^dvi$" ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$") "%(o?)xdvi %dS -paper a5r -s 0 %d") ("^dvi$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)xdvi %dS -paper a5 %d") ("^dvi$" "^b5paper$" "%(o?)xdvi %dS -paper b5 %d") ("^dvi$" "^letterpaper$" "%(o?)xdvi %dS -paper us %d") ("^dvi$" "^legalpaper$" "%(o?)xdvi %dS -paper legal %d") ("^dvi$" "^executivepaper$" "%(o?)xdvi %dS -paper 7.25x10.5in %d") ("^dvi$" "." "%(o?)xdvi %dS %d") ("^pdf$" "." "evince %o") ("^html?$" "." "firefox %o"))))
+ '(TeX-output-view-style
+   (quote
+    (("^dvi$"
+      ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$")
+      "%(o?)dvips -t landscape %d -o && gv %f")
+     ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
+     ("^dvi$"
+      ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$")
+      "%(o?)xdvi %dS -paper a4r -s 0 %d")
+     ("^dvi$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)xdvi %dS -paper a4 %d")
+     ("^dvi$"
+      ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$")
+      "%(o?)xdvi %dS -paper a5r -s 0 %d")
+     ("^dvi$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)xdvi %dS -paper a5 %d")
+     ("^dvi$" "^b5paper$" "%(o?)xdvi %dS -paper b5 %d")
+     ("^dvi$" "^letterpaper$" "%(o?)xdvi %dS -paper us %d")
+     ("^dvi$" "^legalpaper$" "%(o?)xdvi %dS -paper legal %d")
+     ("^dvi$" "^executivepaper$" "%(o?)xdvi %dS -paper 7.25x10.5in %d")
+     ("^dvi$" "." "%(o?)xdvi %dS %d")
+     ("^pdf$" "." "evince %o")
+     ("^html?$" "." "firefox %o"))))
+ '(auto-revert-interval 1)
  '(c-basic-offset 2)
+ '(case-fold-search t)
+ '(compile-command
+   "cd /home/skye/Impala && IMPALA_HOME=/home/skye/Impala make -j8 impalad")
  '(ediff-split-window-function (quote split-window-horizontally))
  '(fci-handle-truncate-lines t)
  '(fill-column 90)
@@ -134,20 +159,29 @@
  '(graphviz-dot-auto-indent-on-semi nil)
  '(password-cache-expiry nil)
  '(python-indent 2)
+ '(python-indent-offset 2)
  '(require-final-newline t)
  '(show-trailing-whitespace t)
  '(split-height-threshold nil)
+ '(tags-case-fold-search t)
  '(truncate-partial-width-windows nil)
- '(user-mail-address "skyewm@gmail.com"))
+ '(user-mail-address "skyewm@gmail.com")
+ '(x-select-enable-primary t))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(compilation-error ((t (:inherit error :foreground "red"))))
  '(diff-added ((t (:inherit diff-changed :foreground "green"))))
  '(diff-removed ((t (:inherit diff-changed :foreground "red"))))
- '(font-lock-string-face ((t (:foreground "#ffcd8b"))))
+ '(ediff-current-diff-A ((t (:background "#444"))))
+ '(ediff-current-diff-B ((t (:background "#444"))))
+ '(ediff-current-diff-C ((t (:background "#444"))))
+ '(ediff-fine-diff-B ((t (:background "dark green"))))
+ '(font-lock-string-face ((t (:background "#1e1e27" :foreground "#ffcd8b"))))
  '(magit-item-highlight ((((class color) (background dark)) (:background "gray18"))))
+ '(modeline ((t (:background "#3e3e5e" :foreground "lawn green" :weight bold))))
  '(outline-1 ((t (:inherit font-lock-function-name-face :foreground "gold"))))
  '(outline-2 ((t (:inherit font-lock-variable-name-face :foreground "sky blue"))))
  '(outline-3 ((nil (:foreground "light pink"))))
@@ -235,7 +269,7 @@
      (when (not window-system)
        (set-face-background 'magit-item-highlight "black"))))
 ;; C-' = magit-status
-(global-set-key (kbd "C-'") 'magit-status)
+;;(global-set-key (kbd "C-'") 'magit-status)
 
 (add-hook 'python-mode-hook '(lambda ()
 	  (local-set-key (kbd "C-c C-i") 'python-end-of-block)))
@@ -248,7 +282,7 @@
 (defun lines ()
   (interactive)
   (if (region-active-p)
-      (count-lines-region (region-beginning) (region-end))
+      (call-interactively 'count-words-region)
     (count-lines-page)))
 (global-set-key (kbd "C-x l") 'lines)
 
@@ -265,6 +299,7 @@
   (or (looking-at "[0123456789]+")
       (error "No number at point"))
   (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+(global-set-key [f10] 'increment-number-at-point)
 
 (defun yank-pop-reverse ()
   (interactive)
@@ -305,17 +340,20 @@
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
+;; (add-hook 'c-mode-common-hook 'google-set-c-style)
 
-;; (defconst my-cc-style
-;; '("gnu" (c-offsets-alist .
-;;                          ((innamespace . [0])
-;;                           (arglist-cont-nonempty . 4)
-;;                           (arglist-intro . 4)
-;;                           (access-label . -1)
-;;                           (member-init-intro . 4))
-;;                          )))
-;; (c-add-style "my-cc-style" my-cc-style)
+;; C tweaks for Impala
+(defconst my-cc-style
+  '("Google" (c-offsets-alist .
+                           ((innamespace . [0])
+                            (arglist-cont-nonempty . 4)
+                            (arglist-intro . 4)
+                            (access-label . -1)
+                            (member-init-intro . 4))
+                           )))
+(c-add-style "my-cc-style" my-cc-style)
+(defun set-my-cc-style () (interactive) (google-set-c-style) (c-set-style "my-cc-style"))
+(add-hook 'c-mode-common-hook 'set-my-cc-style)
 
 (defconst my-cc-style
   '("Google" (c-offsets-alist .
@@ -341,11 +379,11 @@
 (defun ack-be (query)
   (interactive "Mack-grep ")
   (ack (concat "ack-grep " query)
-       "/home/skye/code/impala/be/src"))
+       "/home/skye/Impala/be/src"))
 
 (defun ggrep (query)
   (interactive "Mgit grep ")
-  (vc-git-grep query "*" "/home/skye/code/impala/"))
+  (vc-git-grep query "*" "/home/skye/Impala/"))
 
 (require 'workgroups)
 (setq wg-prefix-key (kbd "C-c C-w"))
@@ -421,36 +459,19 @@
     (message "Refreshed open files.") )
 
 (require 'fill-column-indicator)
-(add-hook 'after-change-major-mode-hook 'fci-mode)
+;; (add-hook 'after-change-major-mode-hook 'fci-mode)
+(add-hook 'c-mode-common-hook 'fci-mode)
 (setq fci-rule-color "#222244")
 
 (require 'multiple-cursors)
 (global-set-key (kbd "C-\"") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-:") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-'") 'mc/skip-to-next-like-this)
+(global-set-key (kbd "C-;") 'mc/skip-to-previous-like-this)
 (global-set-key (kbd "C-c '") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-c ;") 'mc/mark-pop)
 
 (set-default 'truncate-lines nil)
-
-(fset 'testpph-down
-   "\C-sdefine i64 @_Z4testPPh\C-s\C-m\C-a\C-p\C-p\C-p\C-l\C-l")
-(global-set-key (kbd "<f8>") 'testpph-down)
-(fset 'testpph-up
-   "\C-rdefine i64 @_Z4testPPh\C-m\C-p\C-p\C-p\C-l\C-l")
-(global-set-key (kbd "<f7>") 'testpph-up)
-
-(fset 'addintint-down
-   "\C-sdefine i64 @_ZN6impala16ComputeFunctions11Add_int_intEPN10impala_udf15FunctionContextERKNS1_6IntValES6_Wrapper17(\C-s\C-m\C-a\C-p\C-p\C-p\C-l\C-l")
-(global-set-key (kbd "<f10>") 'addintint-down)
-(fset 'addintint-up
-   "\C-rdefine i64 @_ZN6impala16ComputeFunctions11Add_int_intEPN10impala_udf15FunctionContextERKNS1_6IntValES6_Wrapper17(\C-m\C-p\C-p\C-p\C-l\C-l")
-(global-set-key (kbd "<f9>") 'addintint-up)
-
-(fset 'addbigintbigint-down
-   "\C-sdefine { i8, i64 } @_ZN6impala16ComputeFunctions17Add_bigint_bigintEPN10impala_udf15FunctionContextERKNS1_9BigIntValES6_Wrapper43(\C-s\C-m\C-a\C-p\C-p\C-p\C-l\C-l")
-(global-set-key (kbd "<f10>") 'addbigintbigint-down)
-(fset 'addbigintbigint-up
-   "\C-rdefine { i8, i64 } @_ZN6impala16ComputeFunctions17Add_bigint_bigintEPN10impala_udf15FunctionContextERKNS1_9BigIntValES6_Wrapper43(\C-m\C-p\C-p\C-p\C-l\C-l")
-(global-set-key (kbd "<f9>") 'addbigintbigint-up)
 
 (global-set-key (kbd "<f12>") 'toggle-truncate-lines)
 
@@ -484,7 +505,7 @@
     (or (and (eolp) (not (bolp)))
         (progn (forward-line -1) (end-of-line)))
     (setq end (point-marker))
-    (let ((strs (shuffle-list 
+    (let ((strs (shuffle-list
                  (split-string (buffer-substring-no-properties beg end)
                                "\n"))))
       (delete-region beg end)
@@ -508,3 +529,40 @@ All permutations equally likely."
 
 (semantic-mode 1)
 (global-ede-mode 1)
+
+(global-semantic-stickyfunc-mode 1)
+
+(defun my-find-file-check-make-large-file-read-only-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (> (buffer-size) (* 1024 1024))
+    (setq buffer-read-only t)
+    (buffer-disable-undo)
+    (fundamental-mode)))
+
+(add-hook 'find-file-hooks 'my-find-file-check-make-large-file-read-only-hook)
+
+(defun open-or-switch-to (file)
+  (let ((existing-buffer (find-buffer-visiting file)))
+    (cond (existing-buffer (set-window-buffer nil existing-buffer))
+          (t (find-file-existing file)))))
+
+
+(defun switch-to-header-or-impl ()
+  (interactive)
+  (let ((other-file
+         (cond
+          ((not (buffer-file-name)) (error "Buffer not visiting a file"))
+          ((string-match-p "\\.cc$" (buffer-file-name))
+           (replace-regexp-in-string "\\.cc$" ".h"  (buffer-file-name)))
+          ((string-match-p "\\.h$" (buffer-file-name))
+           (replace-regexp-in-string "\\.h$" ".cc" (buffer-file-name)))
+          (t (error "Not a .cc or .h file: %s" (buffer-file-name))))))
+         (open-or-switch-to other-file)))
+(global-set-key (kbd "C-M-;") 'switch-to-header-or-impl)
+
+(add-hook 'compilation-mode-hook (lambda () (setq truncate-lines nil)))
+(add-hook 'grep-mode-hook (lambda () (setq truncate-lines t)))
+
+(visit-tags-table "/home/skye/Impala/be/src/TAGS")
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
