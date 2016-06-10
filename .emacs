@@ -461,6 +461,8 @@
 (require 'fill-column-indicator)
 ;; (add-hook 'after-change-major-mode-hook 'fci-mode)
 (add-hook 'c-mode-common-hook 'fci-mode)
+(add-hook 'python-mode-hook 'fci-mode)
+(add-hook 'sql-mode-hook 'fci-mode)
 (setq fci-rule-color "#222244")
 
 (require 'multiple-cursors)
