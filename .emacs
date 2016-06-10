@@ -108,7 +108,7 @@
 (global-set-key [f2] 'toggle-comment)
 
 ;; compile
-(global-set-key "\C-z" 'compile)
+;; (global-set-key "\C-z" 'compile)
 
 ;; goto line as c-x g
 (global-set-key "\C-xg" 'goto-line)
@@ -157,6 +157,7 @@
  '(fill-column 90)
  '(goal-column nil)
  '(graphviz-dot-auto-indent-on-semi nil)
+ '(js-indent-level 2)
  '(password-cache-expiry nil)
  '(python-indent 2)
  '(python-indent-offset 2)
@@ -234,9 +235,9 @@
 (global-set-key "\C-xp" 'previous-multiframe-window)
 
 ;disable backup
-;(setq backup-inhibited t)
+(setq backup-inhibited t)
 ;disable auto save
-;(setq auto-save-default nil)
+(setq auto-save-default nil)
 ; backup directory
 (setq backup-directory-alist `((".*" . "~/.emacs.d/backups")))
 
@@ -383,7 +384,7 @@
 
 (defun ggrep (query)
   (interactive "Mgit grep ")
-  (vc-git-grep query "*" "/home/skye/Impala/"))
+  (vc-git-grep query "*" "/home/skye/impala/"))
 
 (require 'workgroups)
 (setq wg-prefix-key (kbd "C-c C-w"))
@@ -565,6 +566,17 @@ All permutations equally likely."
 (add-hook 'compilation-mode-hook (lambda () (setq truncate-lines nil)))
 (add-hook 'grep-mode-hook (lambda () (setq truncate-lines t)))
 
-(visit-tags-table "/home/skye/Impala/be/src/TAGS")
+;; (visit-tags-table "/home/skye/Impala/be/src/TAGS")
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(defun cdesktop ()
+  (interactive)
+  (let ((default-directory "/ssh:skye-desktop.ca.cloudera.com:/home/skye/Impala"))
+    (call-interactively 'compile)))
+
+(global-set-key "\C-z" 'cdesktop)
+
+(defun gdesktop (query)
+  (interactive "Mgit grep ")
+  (vc-git-grep query "*" "/ssh:skye-desktop.ca.cloudera.com:/home/skye/Impala/"))
