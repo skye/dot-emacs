@@ -14,7 +14,7 @@
 
 ;(set-default-font "-Misc-Fixed-Medium-R-SemiCondensed--13-120-75-75-C-60-ISO8859-1")
 ;(set-default-font "Droid Sans Mono-9")
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 100)
 
 ;(add-to-list 'default-frame-alist '(font . "Droid Sans Mono-9"))
 (add-to-list 'default-frame-alist '(geometry . "-1-1"))
@@ -29,17 +29,8 @@
 
 
 ;; load libraries
-(mapcar
- 'safe-load
- '(
-;;   "color-theme"    ;; loads color theme
-;;   "psvn"           ;; loads psvn
-   "zenburn"        ;; zenburn color theme
-   "pastels-on-dark" ;; pastels on dark color theme
-   "inkpot"
-   ))
-
-(color-theme-inkpot)
+(safe-load "pastels-on-dark")
+(safe-load "inkpot-theme")
 
 ;; Scheme binary
 ;(setq scheme-program-name "mzscheme")
@@ -107,8 +98,18 @@
     (comment-or-uncomment-region (line-beginning-position) (line-end-position))))
 (global-set-key [f2] 'toggle-comment)
 
+(defun custom-indent ()
+  (interactive)
+  (if (region-active-p)
+      (indent-region (region-beginning) (region-end))
+    (c-indent-command)))
+(defun custom-indent-hook ()
+  (interactive)
+  (global-set-key "\t" 'custom-indent))
+(add-hook 'c-mode-common-hook 'custom-indent-hook)
+
 ;; compile
-;; (global-set-key "\C-z" 'compile)
+(global-set-key "\C-z" 'compile)
 
 ;; goto line as c-x g
 (global-set-key "\C-xg" 'goto-line)
@@ -118,7 +119,7 @@
 
 (tool-bar-mode 0)
 (scroll-bar-mode -1)
-
+(menu-bar-mode 0)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -127,8 +128,7 @@
  ;; If there is more than one, they won't work right.
  '(TeX-PDF-mode t)
  '(TeX-output-view-style
-   (quote
-    (("^dvi$"
+   '(("^dvi$"
       ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$")
       "%(o?)dvips -t landscape %d -o && gv %f")
      ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
@@ -146,28 +146,42 @@
      ("^dvi$" "^executivepaper$" "%(o?)xdvi %dS -paper 7.25x10.5in %d")
      ("^dvi$" "." "%(o?)xdvi %dS %d")
      ("^pdf$" "." "evince %o")
-     ("^html?$" "." "firefox %o"))))
+     ("^html?$" "." "firefox %o")))
  '(auto-revert-interval 1)
  '(c-basic-offset 2)
  '(case-fold-search t)
- '(compile-command
-   "cd /home/skye/Impala && IMPALA_HOME=/home/skye/Impala make -j8 impalad")
- '(ediff-split-window-function (quote split-window-horizontally))
+ '(clang-format-style "Google")
+ '(compilation-scroll-output nil)
+ '(custom-safe-themes
+   '("d29ee743581a0348f97819980be976f3ec73ec6619906db94da108d7bd6debd1" default))
+ '(display-time-default-load-average nil)
+ '(ediff-split-window-function 'split-window-horizontally)
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(fci-handle-truncate-lines t)
- '(fill-column 90)
+ '(fill-column 80)
+ '(flycheck-python-pylint-executable "/usr/bin/pylint")
  '(goal-column nil)
  '(graphviz-dot-auto-indent-on-semi nil)
  '(js-indent-level 2)
+ '(mode-line-format
+   '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "  " mode-line-position mode-line-misc-info
+     (vc-mode vc-mode)
+     " " mode-line-modes mode-line-end-spaces))
+ '(org-startup-folded nil)
+ '(package-selected-packages
+   '(web-mode flycheck tabbar session pod-mode muttrc-mode mutt-alias markdown-mode initsplit htmlize graphviz-dot-mode folding eproject diminish csv-mode browse-kill-ring boxquote bm bar-cursor apache-mode))
  '(password-cache-expiry nil)
  '(python-indent 2)
  '(python-indent-offset 2)
  '(require-final-newline t)
+ '(savehist-additional-variables '(compile-command))
+ '(savehist-mode t)
+ '(select-enable-primary t)
  '(show-trailing-whitespace t)
  '(split-height-threshold nil)
  '(tags-case-fold-search t)
  '(truncate-partial-width-windows nil)
- '(user-mail-address "skyewm@gmail.com")
- '(x-select-enable-primary t))
+ '(user-mail-address "skyewm@gmail.com"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -179,7 +193,13 @@
  '(ediff-current-diff-A ((t (:background "#444"))))
  '(ediff-current-diff-B ((t (:background "#444"))))
  '(ediff-current-diff-C ((t (:background "#444"))))
+ '(ediff-even-diff-A ((t (:background "dim gray"))))
+ '(ediff-even-diff-B ((t (:background "dim gray"))))
+ '(ediff-even-diff-C ((t (:background "dim gray"))))
  '(ediff-fine-diff-B ((t (:background "dark green"))))
+ '(ediff-odd-diff-A ((t (:background "dim gray"))))
+ '(ediff-odd-diff-B ((t (:background "dim gray"))))
+ '(ediff-odd-diff-C ((t (:background "dim gray"))))
  '(font-lock-string-face ((t (:background "#1e1e27" :foreground "#ffcd8b"))))
  '(magit-item-highlight ((((class color) (background dark)) (:background "gray18"))))
  '(modeline ((t (:background "#3e3e5e" :foreground "lawn green" :weight bold))))
@@ -195,7 +215,12 @@
  '(rainbow-delimiters-depth-7-face ((((background dark)) (:foreground "salmon"))))
  '(rainbow-delimiters-depth-8-face ((((background dark)) (:foreground "yellow"))))
  '(rainbow-delimiters-depth-9-face ((((background dark)) (:foreground "forestgreen"))))
- '(rainbow-delimiters-unmatched-face ((((background dark)) (:background "#ff090B" :foreground "#ffffff")))))
+ '(rainbow-delimiters-unmatched-face ((((background dark)) (:background "#ff090B" :foreground "#ffffff"))))
+ '(sh-heredoc ((t (:foreground "goldenrod" :weight bold))))
+ '(term-color-blue ((t (:background "royal blue" :foreground "royal blue"))))
+ '(web-mode-current-element-highlight-face ((t (:background "magenta" :foreground "yellow"))))
+ '(web-mode-html-tag-face ((t (:foreground "#87cefa"))))
+ '(which-func ((t (:foreground "cornflower blue")))))
  ;highlight unmatched delimiters in bright red
 
 ;; (custom-set-variables
@@ -232,7 +257,7 @@
 (global-set-key (kbd "<C-S-l>") 'windmove-right)
 
 ;; map C-x p to prev-window
-(global-set-key "\C-xp" 'previous-multiframe-window)
+(global-set-key (kbd "\C-x p") 'previous-multiframe-window)
 
 ;disable backup
 (setq backup-inhibited t)
@@ -261,16 +286,18 @@
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 
 ;; magit
-(require 'magit)
+;; (require 'magit)
 ;; change magit diff colors
-(eval-after-load 'magit
-  '(progn
-     (set-face-foreground 'magit-diff-add "green3")
-     (set-face-foreground 'magit-diff-del "red3")
-     (when (not window-system)
-       (set-face-background 'magit-item-highlight "black"))))
+;; (eval-after-load 'magit
+;;   '(progn
+;;      (set-face-foreground 'magit-diff-add "green3")
+;;      (set-face-foreground 'magit-diff-del "red3")
+;;      (when (not window-system)
+;;        (set-face-background 'magit-item-highlight "black"))))
 ;; C-' = magit-status
 ;;(global-set-key (kbd "C-'") 'magit-status)
+;; (setq magit-auto-revert-mode nil)
+;; (setq magit-last-seen-setup-instructions "1.4.0")
 
 (add-hook 'python-mode-hook '(lambda ()
 	  (local-set-key (kbd "C-c C-i") 'python-end-of-block)))
@@ -289,10 +316,7 @@
 
 (defun python-summary ()
   (interactive)
-  (occur "\\<def\\>\\|\\<class\\>"))
-
-;; sublime minimap
-(require 'minimap)
+  (occur "\\_<def\\_>\\|\\_<class\\_>"))
 
 (defun increment-number-at-point ()
   (interactive)
@@ -309,7 +333,9 @@
 (global-set-key (kbd "M-p") 'yank-pop-reverse)
 
 (require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode 1)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'c-mode-common-hook 'rainbow-delimiters-mode)
+(add-hook 'python-mode-hook 'rainbow-delimiters-mode)
 
 (global-set-key (kbd "C-S-o") 'occur)
 
@@ -340,31 +366,6 @@
 (require 'ack)
 
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-(require 'google-c-style)
-;; (add-hook 'c-mode-common-hook 'google-set-c-style)
-
-;; C tweaks for Impala
-(defconst my-cc-style
-  '("Google" (c-offsets-alist .
-                           ((innamespace . [0])
-                            (arglist-cont-nonempty . 4)
-                            (arglist-intro . 4)
-                            (access-label . -1)
-                            (member-init-intro . 4))
-                           )))
-(c-add-style "my-cc-style" my-cc-style)
-(defun set-my-cc-style () (interactive) (google-set-c-style) (c-set-style "my-cc-style"))
-(add-hook 'c-mode-common-hook 'set-my-cc-style)
-
-(defconst my-cc-style
-  '("Google" (c-offsets-alist .
-                              ((innamespace . [0])
-                               (arglist-cont-nonempty . 4)
-                               (arglist-intro . 4)
-                               (access-label . -1)
-                               (member-init-intro . 4))
-                              )))
-(c-add-style "my-cc-style" my-cc-style)
 
 (defun scroll-up-one ()
   (interactive)
@@ -377,9 +378,19 @@
 (global-set-key (kbd "C->") 'scroll-up-one)
 (global-set-key (kbd "C-<") 'scroll-down-one)
 
+(defun scroll-right-one ()
+  (interactive)
+  (scroll-right 1))
+(defun scroll-left-one ()
+  (interactive)
+  (scroll-left 1))
+(global-set-key (kbd "C-<left>") 'scroll-right-one)
+(global-set-key (kbd "C-<right>") 'scroll-left-one)
+
+
 (defun ack-be (query)
-  (interactive "Mack-grep ")
-  (ack (concat "ack-grep " query)
+  (interactive "Mack ")
+  (ack (concat "ack " query)
        "/home/skye/Impala/be/src"))
 
 (defun ggrep (query)
@@ -430,9 +441,14 @@
          ((not (buffer-file-name)) (error "Buffer not visiting a file"))
          ((string-match-p "\\.cc$" (buffer-file-name))
           (replace-regexp-in-string "\\.cc$" ".h"  (buffer-file-name)))
+         ((string-match-p "\\.c$" (buffer-file-name))
+          (replace-regexp-in-string "\\.c$" ".h"  (buffer-file-name)))
          ((string-match-p "\\.h$" (buffer-file-name))
-          (replace-regexp-in-string "\\.h$" ".cc" (buffer-file-name)))
-         (t (error "Not a .cc or .h file: %s" (buffer-file-name))))))
+          (let ((cc-file (replace-regexp-in-string "\\.h$" ".cc" (buffer-file-name))))
+            (if (file-exists-p cc-file)
+                cc-file
+              (replace-regexp-in-string "\\.h$" ".c" (buffer-file-name)))))
+         (t (error "Not a .cc, .c, or .h file: %s" (buffer-file-name))))))
         (open-or-switch-to other-file)))
 (global-set-key (kbd "C-M-;") 'switch-to-header-or-impl)
 
@@ -443,12 +459,7 @@
    (interactive "sFilename pattern: ")
    (let ((find-name-arg "-iname"))
      (find-name-dired (getenv "IMPALA_HOME") (format "*%s*" regex))))
-(global-set-key (kbd "C-c C-f") 'find-in-impala)
-
-(defun make-lzo ()
-  (interactive)
-  (compile "cd ~/Impala-lzo && make"))
-(global-set-key (kbd "C-x C-z") 'make-lzo)
+;; (global-set-key (kbd "C-c C-f") 'find-in-impala)
 
 (defun revert-all-buffers ()
     "Refreshes all open buffers from their respective files."
@@ -530,10 +541,10 @@ All permutations equally likely."
       (setq i (1+ i))))
   list)
 
-(semantic-mode 1)
-(global-ede-mode 1)
+;; (semantic-mode 1)
+;; (global-ede-mode 1)
 
-(global-semantic-stickyfunc-mode 1)
+;(global-semantic-stickyfunc-mode 1)
 
 (defun my-find-file-check-make-large-file-read-only-hook ()
   "If a file is over a given size, make the buffer read only."
@@ -570,13 +581,87 @@ All permutations equally likely."
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(defun cdesktop ()
+
+(defun set-etags ()
   (interactive)
-  (let ((default-directory "/ssh:skye-desktop.ca.cloudera.com:/home/skye/Impala"))
-    (call-interactively 'compile)))
+  (global-set-key [(?\M-.)] #'find-tag)
+  (global-set-key [(?\M-,)] #'tags-loop-continue)
+  (global-set-key [(?\M-*)] #'pop-tag-mark)
+  (global-set-key (kbd "C-x 4 .") #'find-tag-other-window))
+(set-etags)
 
-(global-set-key "\C-z" 'cdesktop)
+(defun no-extern-indent()
+  (interactive)
+  (c-set-offset 'inextern-lang 0)
+  (c-set-offset 'topmost-intro-cont 4))
+(add-hook 'c-mode-common-hook 'no-extern-indent)
+(add-hook 'cc-mode 'no-extern-indent)
 
-(defun gdesktop (query)
-  (interactive "Mgit grep ")
-  (vc-git-grep query "*" "/ssh:skye-desktop.ca.cloudera.com:/home/skye/Impala/"))
+(require 'find-file-in-repository)
+(global-set-key (kbd "C-x f") 'find-file-in-repository)
+
+(require 'find-file-in-project)
+(global-set-key (kbd "C-x F") 'find-file-in-project-by-selected)
+
+(require 'ido-vertical-mode)
+
+(global-set-key (kbd "C-c C-f") 'clang-format)
+
+(global-set-key (kbd "M-n") 'python-nav-end-of-block)
+(global-set-key (kbd "M-p") 'python-nav-beginning-of-block)
+
+; https://github.com/hlissner/emacs-doom-themes/issues/54
+; still have to run manually, why??
+(setq ansi-term-color-vector [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
+
+; https://emacsredux.com/blog/2013/04/03/delete-file-and-buffer/
+(defun delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (when filename
+      (if (vc-backend filename)
+          (vc-delete-file filename)
+        (progn
+          (delete-file filename)
+          (message "Deleted file %s" filename)
+          (kill-buffer))))))
+(put 'erase-buffer 'disabled nil)
+
+(require 'package)
+(add-to-list 'package-archives
+             '("MELPA Stable" . "http://stable.melpa.org/packages/") t)
+(package-initialize)
+(package-refresh-contents)
+
+(package-install 'flycheck)
+;; (global-flycheck-mode) running super slow for some reason
+
+(package-install 'web-mode)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+)
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+(defun set-pylint-executable ()
+  (interactive)
+  (setq flycheck-python-pylint-executable "/usr/bin/pylint"))
+(add-hook 'python-mode-hook 'set-pylint-executable)
+
+(load-theme 'inkpot)
+
+(which-function-mode 1)
+
+(defun uniquify-region-lines (beg end)
+  "Remove duplicate adjacent lines in region."
+  (interactive "*r")
+  (save-excursion
+    (goto-char beg)
+    (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
+      (replace-match "\\1"))))
+
+(defun uniquify-buffer-lines ()
+  "Remove duplicate adjacent lines in the current buffer."
+  (interactive)
+  (uniquify-region-lines (point-min) (point-max)))

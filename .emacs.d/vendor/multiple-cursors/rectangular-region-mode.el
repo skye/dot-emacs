@@ -1,6 +1,6 @@
 ;;; rectangular-region-mode.el
 
-;; Copyright (C) 2012 Magnar Sveen
+;; Copyright (C) 2012-2016 Magnar Sveen
 
 ;; Author: Magnar Sveen <magnars@gmail.com>
 ;; Keywords: editing cursors
@@ -37,6 +37,8 @@
 
 (define-key rectangular-region-mode-map (kbd "C-g") 'rrm/keyboard-quit)
 (define-key rectangular-region-mode-map (kbd "<return>") 'rrm/switch-to-multiple-cursors)
+
+(defvar rectangular-region-mode nil)
 
 (defun rrm/keyboard-quit ()
   "Exit rectangular-region-mode."
@@ -106,6 +108,7 @@ an exceedingly quick way of adding multiple cursors to multiple lines."
   (when rectangular-region-mode
     (rrm/switch-to-multiple-cursors)))
 
+;;;###autoload
 (define-minor-mode rectangular-region-mode
   "A mode for creating a rectangular region to edit"
   nil " rr" rectangular-region-mode-map
